@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>感恩节感谢语录</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #fff7ed;
+    color: #3b2f2f;
+    padding: 24px;
+  }
+  h1 { text-align: center; color: #c2410c; }
+  .tabs { text-align: center; margin: 20px 0; }
+  .tabs button {
+    margin: 4px;
+    padding: 8px 14px;
+    border: 1px solid #fdba74;
+    background: #ffedd5;
+    color: #9a3412;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .tabs button.active { background: #f97316; color: white; }
+  .cards { max-width: 700px; margin: 0 auto; }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+  }
+  .card p { margin: 0; line-height: 1.6; }
+  .copy-btn {
+    flex-shrink: 0;
+    border: none;
+    background: #fb923c;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <h1>感恩节，说点感谢的话</h1>
+  <div class="tabs" id="tabs"></div>
+  <div class="cards" id="cards"></div>
+
+<script>
+  const data = {
+    "给父母": [
+      "我是一般的女儿，但你是很好很好的爸爸/妈妈。",
+      "小棉袄会努力成为您的防弹衣。",
+      "谢谢你们把最好的都给了我。"
+    ],
+    "给老师": [
+      "我不是您最出色的学生，而您却是我最崇敬的老师。",
+      "教诲如春风，师恩似海深。",
+      "谢谢您，让我看见更大的世界。"
+    ],
+    "给朋友": [
+      "谢谢你做我非血缘关系的姐妹。",
+      "辛遇良友，温柔岁月。",
+      "感谢你在我需要的时候，刚好都在。"
+    ],
+    "给室友": [
+      "室友不杀之恩——毕竟你打呼、熬夜、外放视频，他们还没把你踢出群。",
+      "谢谢食堂阿姨手不抖之恩。",
+      "感谢你包容我的小毛病，也感谢你借我的充电器。"
+    ],
+    "给自己": [
+      "承蒙山河关照，让我人间逍遥。",
+      "感谢生活，有剥夺也有馈赠。",
+      "谢谢自己，又撑过了一年。"
+    ]
+  };
+
+  const tabs = document.getElementById("tabs");
+  const cards = document.getElementById("cards");
+  const categories = Object.keys(data);
+  let current = categories[0];
+
+  function renderTabs() {
+    tabs.innerHTML = "";
+    categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.textContent = cat;
+      btn.className = cat === current ? "active" : "";
+      btn.onclick = () => { current = cat; renderTabs(); renderCards(); };
+      tabs.appendChild(btn);
+    });
+  }
+
+  function renderCards() {
+    cards.innerHTML = "";
+    data[current].forEach(text => {
+      const card = document.createElement("div");
+      card.className = "card";
+      const p = document.createElement("p");
+      p.textContent = text;
+      const btn = document.createElement("button");
+      btn.className = "copy-btn";
+      btn.textContent = "复制";
+      btn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = "已复制";
+          setTimeout(() => btn.textContent = "复制", 1200);
+        } catch (e) {
+          btn.textContent = "复制失败";
+        }
+      };
+      card.appendChild(p);
+      card.appendChild(btn);
+      cards.appendChild(card);
+    });
+  }
+
+  renderTabs();
+  renderCards();
+</script>
+</body>
+</html>
